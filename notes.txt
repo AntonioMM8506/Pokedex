@@ -1,0 +1,22 @@
+In this exercise we're going to build a Kanto Pokedex, using this open API https://pokeapi.co/ (Enlaces a un sitio externo.) 
+and using NextJS and all the goodies we are learning from ReactJS, we will create the following:
+
+The front project for our Kanto Pokedex
+
+    * The UI will have a search bar where a user can search only for Kanto Pokemon, if the user types any other Pokemon name should return a pop-up, 
+    letting the user know that only Kanto Pokemon can be searched.
+    * Also, we need to validate the input field before sending a server request, the input should be no empty, and at least 3 chars, if any of these 
+    validation fails, we should show an inline error
+    * The search bar should have 2 buttons:
+        - The first button should be the search button and should be disabled until inline validation meets the criteria.
+        - The second button should clean the Pokedex, the area where the Pokemon info should be displayed, the cleaning action should only trigger if 
+        we have any info in the Pokedex
+
+    * Below the Pokedex, we will need to have an area where we can display the last 5 Pokemon searched, should display the name and the Pokemon type, 
+    if the user clicks on any of those Pokemon, we should display the Pokemon info in the Pokedex.
+
+UI is up to you, but at least you should consider the Kanto Pokedex, which should be displayed on desktops, tables, and mobile.
+
+Remember, we need to let the user know what we are doing, so add any labels, loading spinners, or animations that will help us with this task.
+
+Performance is everything!
