@@ -31,3 +31,7 @@ body {
     text-wrap: balance;
   }
 }
+
+.custom-background {
+  background-color: rgb(210, 221, 225); /* Customize the background color */
+}
