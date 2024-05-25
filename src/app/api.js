@@ -1,5 +1,7 @@
 "use client"
 import React, {useState, useEffect, useMemo } from 'react';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 import pokedexHead from "../../public/media/pokedex.png";
 import Image from 'next/image';
 import TextField from '@mui/material/TextField';
@@ -8,6 +10,7 @@ import Stack from '@mui/material/Stack';
 import PokemonCard from './card';
 import './globals.css';
 
+
 const FetchAPI = () => {
     const [kantoData, setKantoData] = useState(null);
     const [pokemon, setPokemon] = useState('');
@@ -15,6 +18,16 @@ const FetchAPI = () => {
     const [pokemonData, setPokemonData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
+    const [consultedPokemons, setConsultedPokemons] = useState([]);
+    const addPokemon = (newPok) => {
+        if(consultedPokemons.length < 5){
+            setConsultedPokemons([newPok, ...consultedPokemons]);
+        } else{
+            setConsultedPokemons(consultedPokemons.pop());
+            setConsultedPokemons([newPok, ...consultedPokemons]);
+        }
+        
+    }
 
     //Retrieve all the pokemons from the Kanto region
     useEffect(() => {
@@ -55,7 +68,8 @@ const FetchAPI = () => {
 
             const pokemonFound = await response.json();
             setPokemonData(pokemonFound);
-            console.log(pokemonFound);
+            addPokemon(pokemonFound.name);
+            setPokemon('');
             setError(null);
             if(!kantoData.results.find(p => p.name == pokemonFound.name)){
                 setError('Pokemon does not exist');
@@ -74,15 +88,44 @@ const FetchAPI = () => {
 
 
     return (
-        <div>
+        <div className={pokemonData ? "" : "content-above-footer"}>
             <div className="flex flex-col items-center justify-center">
+                <br/>
                 <h1 className="font-semibold text-3xl">Kanto Pokedex</h1>
-                <Image 
-                    src={pokedexHead} 
-                    alt="pokedex"
-                    height={200}
-                    width={200}
-                />
+
+                {pokemonData ? 
+                    (
+                        <Image
+                            src={pokemonData.sprites.front_default}
+                            alt="picture"
+                            width={200}
+                            height={200}
+                        />
+                    ):
+                    (                
+                        <Image 
+                            src={pokedexHead} 
+                            alt="pokedex"
+                            height={150}
+                            width={150}
+                        />
+                    ) }
+
+                {!consultedPokemons.length ? (<span></span>) : (
+                    <div>
+                        <h2> Last consulted Pokemons: </h2>
+                        <List className='space-y-1 text-center'>
+                            {
+                                consultedPokemons.map((item, i) => (
+                                    <ListItem key={item} className="p-1 text-center justify-center">
+                                        <span > {item} </span>
+                                    </ListItem>
+                                ))
+                            }
+                        </List>
+                    </div>
+                )}
+
                 <form onSubmit={handleSubmit}>
                     <TextField
                         value = {pokemon.toLowerCase()}
@@ -127,7 +170,6 @@ const FetchAPI = () => {
                     <PokemonCard props={pokemonData}/>
                 )}
                 
-
             </div>
         </div>
 
